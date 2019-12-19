@@ -147,8 +147,8 @@
 		2F5A4DF92396B2CA00488B7A /* RecipleaseTests */ = {
 			isa = PBXGroup;
 			children = (
-				2FA366F423ABAD20002F2572 /* AlamoTests */,
 				2FA366EF23AB9F2E002F2572 /* CoreDataTests */,
+				2FA366F423ABAD20002F2572 /* AlamoTests */,
 				2F5A4DFA2396B2CA00488B7A /* RecipleaseTests.swift */,
 				2F5A4DFC2396B2CA00488B7A /* Info.plist */,
 			);
