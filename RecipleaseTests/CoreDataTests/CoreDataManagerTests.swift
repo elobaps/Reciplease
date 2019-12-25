@@ -14,6 +14,7 @@ import XCTest
 final class CoreDataManagerTests: XCTestCase {
     
     // MARK: - Properties
+    
     var coreDataStack: MockCoreDataStack!
     var coreDataManager: CoreDataManager!
     

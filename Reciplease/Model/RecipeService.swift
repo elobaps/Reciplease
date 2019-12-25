@@ -28,6 +28,7 @@ final class RecipeService: EncoderUrl {
     
     // MARK: - Methods
     
+    /// network call
     func getRecipes(ingredientList: String, callback: @escaping (Result<RecipeData, Error>) -> Void) {
         guard let baseUrl = URL(string: "https://api.edamam.com/search?") else { return }
         
@@ -51,4 +52,3 @@ final class RecipeService: EncoderUrl {
         }
     }
 }
-

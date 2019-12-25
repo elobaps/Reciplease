@@ -60,4 +60,3 @@ struct Total: Decodable {
     let quantity: Double
     let unit: Unit
 }
-

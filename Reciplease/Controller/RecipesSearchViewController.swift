@@ -42,7 +42,6 @@ class RecipesSearchViewController: UIViewController {
         ingredientsTableView.reloadData()
     }
     
-    
     @IBAction func searchButtonTapped(_ sender: Any) {
         toggleActivityIndicator(shown: true)
         getRecipes()
@@ -64,13 +63,14 @@ class RecipesSearchViewController: UIViewController {
         }
     }
     
+    /// method that sends the data to RecipesTableViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        guard segue.identifier == "segueToListRecipes" else { return }
         guard let recipesList = segue.destination as? RecipesTableViewController else { return }
         recipesList.recipeData = recipeData
         toggleActivityIndicator(shown: false)
     }
     
+    /// method that manages the data of the network call
     func getRecipes() {
         if ingredients.isEmpty {
             presentAlert(titre: "Error", message: "Please enter 1 ingredients at least")
@@ -109,6 +109,7 @@ extension RecipesSearchViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 
+/// extension that manages the table view and allows the display of a message when the list is empty and the deletion of a cell
 extension RecipesSearchViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete {
@@ -133,6 +134,7 @@ extension RecipesSearchViewController: UITableViewDelegate {
 
 // MARK: - UITextFieldDelegate
 
+/// extension that manages the key board
 extension RecipesSearchViewController: UITextFieldDelegate {
     @IBAction func dismissKeyboard(_ sender: UITapGestureRecognizer) {
         searchTextField.resignFirstResponder()

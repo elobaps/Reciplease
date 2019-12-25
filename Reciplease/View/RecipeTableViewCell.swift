@@ -18,6 +18,7 @@ class RecipeTableViewCell: UITableViewCell {
     @IBOutlet weak var recipeTimeLabel: UILabel!
     @IBOutlet weak var recipeScoreLabel: UILabel!
     
+    ///Method for assigning the right data to the outlets
     var recipe: Hit? {
         didSet {
             guard let url = URL(string: recipe?.recipe.image ?? "recipe picture") else {return}
@@ -43,12 +44,8 @@ class RecipeTableViewCell: UITableViewCell {
             recipeIngredientsLabel.text = "\(ingredient)"
             guard let time = Int(favoriteRecipe?.totalTime ?? "") else { return }
             recipeTimeLabel.text = "\(time.timeFormater())"
-            let score = favoriteRecipe?.score
-            if score == "" {
-                recipeScoreLabel.text = "N/A"
-            } else {
-                recipeScoreLabel.text = "\(score ?? "") people"
-            }
+            guard let score = favoriteRecipe?.score else { return }
+            recipeScoreLabel.text = "\(score)"
         }
     }
 }

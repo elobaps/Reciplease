@@ -13,7 +13,7 @@ class FavoritesTableViewController: UIViewController {
     var coreDataManager: CoreDataManager?
     var recipeDetail: Recipe?
     var favoriteRecipe: FavoritesList?
-    
+    var recipeRepresentable: RecipeRepresentable?
     
     @IBOutlet weak var clearButton: UIBarButtonItem!
     @IBOutlet weak var favoriteTableView: UITableView! { didSet { favoriteTableView.tableFooterView = UIView() }}
@@ -30,12 +30,13 @@ class FavoritesTableViewController: UIViewController {
           favoriteTableView.reloadData()
       }
     
+    /// method that sends the data to RecipesDetailViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //guard segue.identifier == "segueToRecipeDetail" else { return }
         guard let recipeVC = segue.destination as? RecipeDetailViewController else { return }
-        recipeVC.recipeDetail = self.recipeDetail
+        recipeVC.recipeRepresentable = recipeRepresentable
     }
     
+    /// method which removes all favorites
     @IBAction func clearButtonTapped(_ sender: Any) {
         coreDataManager?.deleteAllFavorites()
         favoriteTableView.reloadData()
@@ -62,12 +63,15 @@ extension FavoritesTableViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let favoriteRecipe = coreDataManager?.favoritesRecipe[indexPath.row]
+        recipeRepresentable = RecipeRepresentable(name: favoriteRecipe?.name ?? "", imageData: favoriteRecipe?.image, ingredients: favoriteRecipe?.ingredients ?? [], url: favoriteRecipe?.recipeUrl ?? "", score: favoriteRecipe?.score ?? "N/A", totalTime: favoriteRecipe?.totalTime ?? "")
         performSegue(withIdentifier: "segueToRecipeDetail", sender: self)
     }
 }
 
 // MARK: - UITableViewDelegate
 
+/// extension that manages the table view and allows the display of a message when the list is empty and the deletion of a cell
 extension FavoritesTableViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == UITableViewCell.EditingStyle.delete {

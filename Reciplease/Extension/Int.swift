@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - Int
+
 extension Int {
     
     /// Method that creates string representation of  time's quantities

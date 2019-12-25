@@ -8,7 +8,7 @@
 
 import UIKit
 
-// MARK: Present alert
+// MARK: - Present alert
 
 extension UIViewController {
     

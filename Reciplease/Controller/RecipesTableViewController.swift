@@ -14,10 +14,11 @@ class RecipesTableViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    // MARK: - Propertie
+    // MARK: - Properties
     
     var recipeDetail: Recipe?
     var recipeData: RecipeData?
+    var recipeRepresentable: RecipeRepresentable?
     
     // MARK: - View Life Cycle
     
@@ -26,13 +27,12 @@ class RecipesTableViewController: UIViewController {
         tableView.register(UINib(nibName: "RecipeTableViewCell", bundle: nil), forCellReuseIdentifier: "RecipeCell")
     }
     
+    /// method that sends the data to RecipeDetailViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //guard segue.identifier == "segueToRecipeDetail" else { return }
         guard let recipeVC = segue.destination as? RecipeDetailViewController else { return }
-        recipeVC.recipeDetail = self.recipeDetail
+        recipeVC.recipeRepresentable = recipeRepresentable
     }
 }
-
 
 // MARK: - UITableViewDataSource
 
@@ -50,7 +50,8 @@ extension RecipesTableViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        recipeDetail = recipeData?.hits[indexPath.row].recipe
+        let recipeDetail = recipeData?.hits[indexPath.row].recipe
+        recipeRepresentable = RecipeRepresentable(name: recipeDetail?.label ?? "", imageData: recipeDetail?.image.data, ingredients: recipeDetail?.ingredientLines ?? [], url: recipeDetail?.url ?? "", score: String(recipeDetail?.yield ?? 0), totalTime: recipeDetail?.totalTime.timeFormater() ?? "")
         performSegue(withIdentifier: "segueToRecipeDetail", sender: self)
     }
 }

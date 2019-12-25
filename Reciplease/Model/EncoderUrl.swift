@@ -12,6 +12,7 @@ protocol EncoderUrl {
     func encode(baseUrl: URL, parameters: [(String, String)]) -> URL
 }
 
+/// Extension that configure the URLComponents by setting its queryItems property
 extension EncoderUrl {
     func encode(baseUrl: URL, parameters: [(String, String)]) -> URL {
         guard var urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false) else { return baseUrl }

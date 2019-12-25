@@ -9,6 +9,7 @@
 import Foundation
 
 final class FakeResponseData {
+    
     static let responseOK = HTTPURLResponse(url: URL(string: "https://www.google.com/")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
     static let responseKO = HTTPURLResponse(url: URL(string: "https://www.google.com/")!, statusCode: 500, httpVersion: nil, headerFields: nil)!
     
@@ -18,7 +19,9 @@ final class FakeResponseData {
     static var correctData: Data {
         let bundle = Bundle(for: FakeResponseData.self)
         let url = bundle.url(forResource: "RecipeData", withExtension: "json")
-        let data = try! Data(contentsOf: url!)
+        guard let data = try? Data(contentsOf: url!) else {
+            fatalError("RecipeData.json can't be loaded !")
+        }
         return data
     }
     

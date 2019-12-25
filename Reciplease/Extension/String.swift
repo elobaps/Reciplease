@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - String
+
 extension String {
     
     /// Check if a string contains at least one element

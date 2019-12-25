@@ -22,11 +22,10 @@ class RecipeDetailViewController: UIViewController {
     
     // MARK: - Properties
     
-    var recipeService = RecipeService()
-    var recipeData: RecipeData?
-    var ingredients = [String]()
-    var recipeDetail: Recipe?
     private var coreDataManager: CoreDataManager?
+    var recipeRepresentable: RecipeRepresentable?
+    
+       // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,34 +35,44 @@ class RecipeDetailViewController: UIViewController {
         updateRecipe()
     }
     
-    func updateRecipe() {
-        guard let recipeDetail = recipeDetail else { return }
-        guard let url = URL(string: recipeDetail.image) else {return}
-        recipeImageView.load(url: url)
-        recipeTitleLabel.text = recipeDetail.label
-        recipeTimeLabel.text = recipeDetail.totalTime.timeFormater()
-        let score = recipeDetail.yield
-        if score == 0 {
-            recipeScoreLabel.text = "N/A"
+    /// method which reloads the favorite button to inform the user if the recipe is already in his favorites
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if coreDataManager?.recipeIsAlreadyInFavorite(name: recipeTitleLabel.text ?? "") == false {
+            favoriteButton.image = UIImage(named: "icon-star")
         } else {
-            recipeScoreLabel.text = "\(score) people"
+            favoriteButton.image = UIImage(named: "icon-fullstar")
         }
     }
     
+    func updateRecipe() {
+        guard let recipeRepresentable = recipeRepresentable else { return }
+        recipeTitleLabel.text = recipeRepresentable.name
+        recipeTimeLabel.text = recipeRepresentable.totalTime
+        if recipeRepresentable.score == "0" {
+            recipeScoreLabel.text = "N/A"
+        } else {
+            recipeScoreLabel.text = "\(recipeRepresentable.score) people"
+        }
+        guard let image = recipeRepresentable.imageData else { return }
+        recipeImageView.image = UIImage(data: image)
+    }
+    
     func addRecipeToFavorite() {
-        coreDataManager?.addToFavoriteList(name: recipeDetail?.label ?? "", ingredients: recipeDetail?.ingredients.map { $0.text } ?? [], totalTime: recipeDetail?.totalTime.timeFormater() ?? "", score: String(recipeDetail?.yield ?? 0), recipeUrl: recipeDetail?.url ?? "", image: recipeDetail?.image.data)
+        guard let recipeRepresentable = recipeRepresentable else { return }
+        coreDataManager?.addToFavoriteList(name: recipeRepresentable.name, ingredients: recipeRepresentable.ingredients, totalTime: recipeRepresentable.totalTime, score: recipeRepresentable.score, recipeUrl: recipeRepresentable.url, image: recipeRepresentable.imageData)
     }
     
     func deleteRecipeFromFavorites() {
         coreDataManager?.deleteFromFavoriteList(name: recipeTitleLabel.text ?? "")
-//        navigationController?.popViewController(animated: true)
     }
     
     @IBAction func getDirectionsButtonTapped(_ sender: Any) {
-        guard let url = URL(string: recipeDetail?.url ?? "") else {return}
+        guard let url = URL(string: recipeRepresentable?.url ?? "") else {return}
         UIApplication.shared.open(url)
     }
     
+    /// method that saves the user's choice if he decides to add the recipe to his favorites
     @IBAction func favoriteButtonTapped(_ sender: UIBarButtonItem) {
         if coreDataManager?.recipeIsAlreadyInFavorite(name: recipeTitleLabel.text ?? "") == true {
             deleteRecipeFromFavorites()
@@ -75,18 +84,17 @@ class RecipeDetailViewController: UIViewController {
     }
 }
 
-
 // MARK: - UITableViewDataSource
+
 extension RecipeDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recipeDetail?.ingredientLines.count ?? 0
+        return recipeRepresentable?.ingredients.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "IngredientCell", for: indexPath) 
-        // cell.recipe = recipeDetail?.ingredientLines[indexPath.row]
-        guard let recipeDetails = recipeDetail else { return UITableViewCell() }
-        let ingredient = recipeDetails.ingredientLines[indexPath.row]
+        guard let recipeRepresentable = recipeRepresentable else { return UITableViewCell() }
+        let ingredient = recipeRepresentable.ingredients[indexPath.row]
         cell.textLabel?.text = ingredient
         return cell
     }
