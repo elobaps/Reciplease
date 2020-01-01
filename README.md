@@ -39,3 +39,6 @@ struct ApiConfig {
 * Alamofire is an HTTP networking library written in Swift. [Alamofire documentation.](https://github.com/Alamofire/Alamofire "Alamofire documentation.")
 
 ## Screenshot
+
+![Screenshot-Reciplease](https://user-images.githubusercontent.com/11584683/71645897-21864c00-2cdf-11ea-8b20-e007252730ef.png)
+
