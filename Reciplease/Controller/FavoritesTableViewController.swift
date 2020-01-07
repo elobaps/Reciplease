@@ -10,13 +10,19 @@ import UIKit
 
 class FavoritesTableViewController: UIViewController {
     
+    // MARK: - Outlets
+    
+    @IBOutlet weak var clearButton: UIBarButtonItem!
+    @IBOutlet weak var favoriteTableView: UITableView! { didSet { favoriteTableView.tableFooterView = UIView() }}
+    
+    // MARK: - Properties
+    
     var coreDataManager: CoreDataManager?
     var recipeDetail: Recipe?
     var favoriteRecipe: FavoritesList?
     var recipeRepresentable: RecipeRepresentable?
     
-    @IBOutlet weak var clearButton: UIBarButtonItem!
-    @IBOutlet weak var favoriteTableView: UITableView! { didSet { favoriteTableView.tableFooterView = UIView() }}
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,11 +36,15 @@ class FavoritesTableViewController: UIViewController {
           favoriteTableView.reloadData()
       }
     
+    // MARK: - Method
+    
     /// method that sends the data to RecipesDetailViewController
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let recipeVC = segue.destination as? RecipeDetailViewController else { return }
         recipeVC.recipeRepresentable = recipeRepresentable
     }
+    
+    // MARK: - Action
     
     /// method which removes all favorites
     @IBAction func clearButtonTapped(_ sender: Any) {

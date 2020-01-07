@@ -25,7 +25,7 @@ class RecipeDetailViewController: UIViewController {
     private var coreDataManager: CoreDataManager?
     var recipeRepresentable: RecipeRepresentable?
     
-       // MARK: - View Life Cycle
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,6 +44,8 @@ class RecipeDetailViewController: UIViewController {
             favoriteButton.image = UIImage(named: "icon-fullstar")
         }
     }
+    
+    // MARK: - Methods
     
     func updateRecipe() {
         guard let recipeRepresentable = recipeRepresentable else { return }
