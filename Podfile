@@ -12,8 +12,9 @@ target 'Reciplease' do
   pod 'SwiftLint', '0.30.1'
 
   target 'RecipleaseTests' do
-    inherit! :search_paths
-    pod 'Alamofire', '4.9.1'
+  inherit! :search_paths
+  pod 'Alamofire', '4.9.1'
+
   end
 
 end

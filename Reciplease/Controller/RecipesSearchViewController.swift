@@ -74,15 +74,18 @@ class RecipesSearchViewController: UIViewController {
     func getRecipes() {
         if ingredients.isEmpty {
             presentAlert(titre: "Error", message: "Please enter 1 ingredients at least")
+            toggleActivityIndicator(shown: false)
         } else {
             recipeService.getRecipes(ingredientList: ingredients.joined(separator: ",")) { result in
-                switch result {
-                case .success(let recipesData):
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success(let recipesData):
                         self.recipeData = recipesData
                         self.performSegue(withIdentifier: "segueToListRecipes", sender: nil)
-                case .failure(let error):
-                    self.presentAlert(titre: "Error", message: "Service unavailable")
-                    print(error)
+                    case .failure(let error):
+                        self.presentAlert(titre: "Error", message: "Service unavailable")
+                        print(error)
+                    }
                 }
             }
         }

@@ -1,5 +1,5 @@
 //
-//  UIViewControllerExtension.swift
+//  UIViewController+Alert.swift
 //  Reciplease
 //
 //  Created by Elodie-Anne Parquer on 08/12/2019.
@@ -12,7 +12,7 @@ import UIKit
 
 extension UIViewController {
     
-    /// Method that manage alerts which will be used in my model
+    /// Method that manage alerts which will be used 
     func presentAlert(titre: String, message: String) {
         let alertVC = UIAlertController(title: titre, message: message, preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))

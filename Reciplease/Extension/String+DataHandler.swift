@@ -1,5 +1,5 @@
 //
-//  String.swift
+//  String+DataHandler.swift
 //  Reciplease
 //
 //  Created by Elodie-Anne Parquer on 08/12/2019.

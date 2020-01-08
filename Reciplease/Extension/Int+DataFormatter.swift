@@ -1,5 +1,5 @@
 //
-//  In.swift
+//  Int+DataFormatter.swift
 //  Reciplease
 //
 //  Created by Elodie-Anne Parquer on 09/12/2019.

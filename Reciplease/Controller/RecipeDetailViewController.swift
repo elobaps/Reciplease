@@ -69,6 +69,8 @@ class RecipeDetailViewController: UIViewController {
         coreDataManager?.deleteFromFavoriteList(name: recipeTitleLabel.text ?? "")
     }
     
+    // MARK: - Actions
+    
     @IBAction func getDirectionsButtonTapped(_ sender: Any) {
         guard let url = URL(string: recipeRepresentable?.url ?? "") else {return}
         UIApplication.shared.open(url)
